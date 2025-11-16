@@ -1,4 +1,5 @@
-// Substitua todo o conteúdo de: src/DistancePage.jsx
+// frontend/src/DistancePage.jsx
+// (Versão com URLs de Produção do Render)
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Importar Link
@@ -56,7 +57,8 @@ function DistancePage() {
       setError('');
       setDataSource('');
       try {
-        const response = await fetch("http://localhost:5000/get-distance-matrix");
+        // --- CORREÇÃO DE URL ---
+        const response = await fetch("https://brewsep.onrender.com/get-distance-matrix");
         const data = await response.json();
         if (!response.ok) {
           throw new Error(data.error || 'Erro ao buscar dados');

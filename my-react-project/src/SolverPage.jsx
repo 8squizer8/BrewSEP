@@ -1,5 +1,5 @@
 // frontend/src/SolverPage.jsx
-// (Versão final com Totais e Botão para Cenários)
+// (Versão com URLs de Produção do Render)
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -159,8 +159,8 @@ function SolverPage() {
       setLoading(true);
       setError('');
       try {
-        // ATUALIZADO: A rota agora também devolve 'dc_fixed_costs'
-        const response = await fetch("http://localhost:5000/get-solver-data");
+        // --- CORREÇÃO DE URL ---
+        const response = await fetch("https://brewsep.onrender.com/get-solver-data");
         const data = await response.json();
         if (!response.ok) {
           throw new Error(data.error || 'Erro ao buscar dados');
@@ -186,7 +186,8 @@ function SolverPage() {
     setError('');
     
     try {
-      const response = await fetch("http://localhost:5000/run-solver", {
+      // --- CORREÇÃO DE URL ---
+      const response = await fetch("https://brewsep.onrender.com/run-solver", {
         method: "POST",
       });
       const data = await response.json();
@@ -199,8 +200,6 @@ function SolverPage() {
       setDcDecisions(data.dc_decisions);
       
       // --- NOVO: GUARDAR O CASO BASE PARA A PÁGINA DE CENÁRIOS ---
-      // 'solverData' contém os inputs (agora com 'dc_fixed_costs')
-      // 'data' contém os outputs
       if (data && solverData) {
         const baseCase = {
           inputs: solverData, // Os dados de input (distâncias, capacidades, custos fixos)
@@ -209,7 +208,6 @@ function SolverPage() {
             dcDecisions: data.dc_decisions
           }
         };
-        // Limpa o sessionStorage antigo e guarda o novo
         sessionStorage.removeItem('brewsepBaseCase');
         sessionStorage.setItem('brewsepBaseCase', JSON.stringify(baseCase));
         console.log("Caso Base guardado no sessionStorage.");
@@ -309,7 +307,6 @@ function SolverPage() {
           )}
 
           {/* NOVO BOTÃO PARA A PÁGINA DE CENÁRIOS */}
-          {/* Só aparece depois de o solver ter corrido e guardado o caso base */}
           {solverResult && (
             <Link to="/instancias">
               <button style={{backgroundColor: '#3498db', borderColor: '#3498db'}}>

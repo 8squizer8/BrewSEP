@@ -1,5 +1,5 @@
-// Substitua todo o conteúdo de: frontend/src/Instancias.jsx
-// (Versão com atualização das colunas de capacidade/procura)
+// frontend/src/InstanciasPage.jsx
+// (Versão com atualização das colunas de capacidade/procura e URL de Produção)
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -132,10 +132,8 @@ function InstanciasPage() {
   const [scenarioResult, setScenarioResult] = useState(null);
   const [scenarioLoading, setScenarioLoading] = useState(false);
   
-  // --- ALTERAÇÃO AQUI ---
   // Novo estado para guardar os INPUTS modificados do cenário
   const [scenarioInputs, setScenarioInputs] = useState(null); 
-  // --- FIM DA ALTERAÇÃO ---
 
   // Carregar o Caso Base
   useEffect(() => {
@@ -254,7 +252,8 @@ function InstanciasPage() {
 
     // 6. Chamar a nova rota do backend
     try {
-      const response = await fetch("http://localhost:5000/run-scenario", {
+      // --- CORREÇÃO DE URL ---
+      const response = await fetch("https://brewsep.onrender.com/run-scenario", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -265,14 +264,12 @@ function InstanciasPage() {
       }
       setScenarioResult(data); // Guardar os novos resultados
       
-      // --- ALTERAÇÃO AQUI ---
       // Guardar os INPUTS que foram usados para este cálculo
       setScenarioInputs({
         factory_capacities: final_supply_factory,
         client_demands: final_demand_client,
         dc_capacities: final_capacity_dc
       });
-      // --- FIM DA ALTERAÇÃO ---
       
     } catch (err) {
       console.error("Erro na API Fetch (Cenário):", err);
@@ -381,7 +378,6 @@ function InstanciasPage() {
   };
   const baseTotalCost = baseCase.results.totalCost;
 
-  // --- ALTERAÇÃO AQUI ---
   // Preparar os dados para as tabelas de resultados
   let scenarioFactoryData = null;
   let scenarioClientData = null;

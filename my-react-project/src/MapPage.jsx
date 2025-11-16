@@ -1,5 +1,5 @@
 // Substitua todo o conteúdo de: src/MapPage.jsx
-// (Versão com Cenário B e lógica de "salto")
+// (Versão com URLs de Produção do Render)
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -197,7 +197,7 @@ function MapPage({ onGoHome }) {
   };
 
 
-  // --- LÓGICA DAS FASES 1, 2, 3 (Sem alteração) ---
+  // --- LÓGICA DAS FASES 1, 2, 3 (ATUALIZADA) ---
   const handleFactoryNumChange = (e) => setNumFactories(e.target.value);
   const handleFactoryGenerate = () => {
     const num = parseInt(numFactories);
@@ -209,7 +209,7 @@ function MapPage({ onGoHome }) {
     setFactorySaveStatus('A guardar fábricas...');
     setError('');
     try {
-      const response = await fetch("http://localhost:5000/save-factories", {
+      const response = await fetch("https://brewsep.onrender.com/save-factories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ points: factoryMarkers }),
@@ -236,7 +236,7 @@ function MapPage({ onGoHome }) {
     setClientSaveStatus('A guardar clientes...');
     setError('');
     try {
-      const response = await fetch("http://localhost:5000/save-clients", {
+      const response = await fetch("https://brewsep.onrender.com/save-clients", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ points: clientMarkers }),
@@ -263,7 +263,7 @@ function MapPage({ onGoHome }) {
     setDcSaveStatus('A guardar Centros de Distribuição...');
     setError('');
     try {
-      const response = await fetch("http://localhost:5000/save-distribution-centers", {
+      const response = await fetch("https://brewsep.onrender.com/save-distribution-centers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ points: dcMarkers }),
@@ -279,14 +279,14 @@ function MapPage({ onGoHome }) {
     }
   };
 
-  // --- LÓGICA DA FASE 4 (Análise) (Sem alteração) ---
+  // --- LÓGICA DA FASE 4 (Análise) (ATUALIZADA) ---
   const handleRunGravityAnalysis = async () => {
     setError('');
     setAnalysisResult(null);
     setAllAdjustmentsDone(false);
     setAdjustmentSaveStatus(''); 
     try {
-      const response = await fetch("http://localhost:5000/calculate-gravity-by-country", {
+      const response = await fetch("https://brewsep.onrender.com/calculate-gravity-by-country", {
         method: "POST",
       });
       const data = await response.json();
@@ -297,7 +297,7 @@ function MapPage({ onGoHome }) {
     }
   };
 
-  // --- LÓGICA DA FASE 5 (Ajuste) (Sem alteração) ---
+  // --- LÓGICA DA FASE 5 (Ajuste) (ATUALIZADA) ---
   const handleStartAdjustment = (country, optimal_point) => {
     setAdjustingCountry({ country: country, optimal_point: optimal_point });
     setNewCdMarker({
@@ -316,7 +316,7 @@ function MapPage({ onGoHome }) {
     setAdjustmentSaveStatus('A guardar novo CD...');
     setError('');
     try {
-      const response = await fetch("http://localhost:5000/add-distribution-centers", {
+      const response = await fetch("https://brewsep.onrender.com/add-distribution-centers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ points: [newCdMarker] }), 
@@ -379,7 +379,7 @@ function MapPage({ onGoHome }) {
     setFactorySaveStatus('');
     
     try {
-      const response = await fetch(`http://localhost:5000/load-preset/${presetName}`, {
+      const response = await fetch(`https://brewsep.onrender.com/load-preset/${presetName}`, {
         method: 'POST',
       });
       const data = await response.json(); 
