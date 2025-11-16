@@ -1,0 +1,60 @@
+/* Substitua todo o conteúdo de: src/SpotlightCard.css */
+
+.card-spotlight {
+  position: relative;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.08);
+  background-color: rgba(17,17,17,0.85);
+  padding: 2rem;
+  overflow: hidden;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --spotlight-color: rgba(120,180,255,0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  box-shadow: 0 0 20px rgba(120,180,255,0.15);
+  animation: softGlow 4s ease-in-out infinite;
+}
+
+/* Spotlight effect */
+.card-spotlight::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.card-spotlight:hover::before,
+.card-spotlight:focus-within::before { opacity: 0.8; }
+
+.card-spotlight:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 0 40px rgba(120,180,255,0.25), 0 0 60px rgba(120,180,255,0.15);
+}
+
+.card-spotlight:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 25px rgba(120,180,255,0.2);
+}
+
+@keyframes softGlow {
+  0%,100% { box-shadow: 0 0 20px rgba(120,180,255,0.15), 0 0 40px rgba(120,180,255,0.08); }
+  50% { box-shadow: 0 0 30px rgba(120,180,255,0.3), 0 0 60px rgba(120,180,255,0.15); }
+}
+
+/* Sizes */
+.info-card { width: 50vw; min-width: 480px; max-width: 900px; padding: 3rem; }
+.start-card { width: 200px; min-width: 160px; padding: 1rem 1.5rem; text-align: center; }
+
+/* Inner content spacing (optional) */
+.info-card-content { text-align: center; }
+.start-card-content { text-align: center; }
+
+/* Responsive */
+@media (max-width:900px){
+  .card-spotlight { padding: 1.5rem; }
+  .info-card { width: 85vw; min-width: unset; }
+  .start-card { width: 160px; }
+}

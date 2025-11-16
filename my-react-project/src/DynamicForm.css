@@ -1,0 +1,26 @@
+.dynamic-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  box-shadow: 0 0 12px rgba(0, 191, 255, 0.1);
+}
+
+.dynamic-form label {
+  font-weight: 500;
+  color: #ddd;
+}
+
+.dynamic-form input {
+  width: 100%;
+  max-width: 220px;
+}
+
+.dynamic-form .client-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}

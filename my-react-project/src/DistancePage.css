@@ -1,0 +1,71 @@
+/* Crie este NOVO ficheiro: src/DistancePage.css */
+
+.distance-page {
+  width: 100%;
+  height: 100%;
+  background-color: #0c0c1e; /* Fundo escuro */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* Reutilizamos o estilo da sidebar */
+.distance-page .sidebar-panel {
+  width: 100%;
+  max-width: 1200px; /* Limite de largura */
+  height: auto; /* Altura automática */
+  min-height: 80%;
+  background-color: #1a1a2e;
+  padding: 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  color: white;
+}
+
+.distance-table-container {
+  margin-top: 2rem;
+  width: 100%;
+  overflow-x: auto; /* Permite scroll horizontal se a tabela for larga */
+}
+
+.distance-table-container h3 {
+  color: #e0e0e0;
+  border-bottom: 1px solid #3a3a5e;
+  padding-bottom: 0.5rem;
+}
+
+.distance-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.distance-table th,
+.distance-table td {
+  border: 1px solid #3a3a5e;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 0.9rem;
+  white-space: nowrap; /* Não quebra linha */
+}
+
+.distance-table th {
+  background-color: #3a3a5e;
+  color: #ffffff;
+}
+
+.distance-table td {
+  background-color: #2a2a4e;
+}
+
+/* Primeira coluna (Nomes) com cor diferente */
+.distance-table td:first-child,
+.distance-table th:first-child {
+  background-color: #3f3f6e;
+  font-weight: 500;
+}

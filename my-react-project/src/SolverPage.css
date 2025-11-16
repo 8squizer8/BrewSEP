@@ -1,0 +1,105 @@
+/* Crie este NOVO ficheiro: src/SolverPage.css */
+
+.solver-table-container {
+  margin-top: 2.5rem;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.solver-table-container h3 {
+  color: #e0e0e0;
+  border-bottom: 1px solid #3a3a5e;
+  padding-bottom: 0.5rem;
+}
+
+.solver-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  min-width: 800px; /* Largura mínima */
+}
+
+.solver-table th,
+.solver-table td {
+  border: 1px solid #5a5a7e;
+  padding: 10px 12px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Cabeçalhos de Grupo (Ex: "Centros Distribuição") */
+.solver-table .header-group {
+  background-color: #c9daf8;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Cabeçalhos de Coluna (Ex: CD 1, CD 2) */
+.solver-table .col-header {
+  background-color: #f3f3f3;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Cabeçalhos de Linha (Ex: Fábrica, Cliente) */
+.solver-table .row-header-group {
+  background-color: #c9daf8;
+  color: #333;
+  font-weight: bold;
+  writing-mode: vertical-rl; /* Roda o texto */
+  transform: rotate(180deg);
+  width: 40px;
+}
+
+.solver-table .row-header {
+  background-color: #d9d9d9;
+  color: #333;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* Cabeçalhos de Total (Ex: Capacidade) */
+.solver-table .row-header-total {
+  background-color: #9fc5e8;
+  color: #333;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* Células de Dados */
+.solver-table .cell-empty {
+  background-color: #fff2cc; /* Amarelo claro, como na imagem */
+  color: #333;
+  height: 30px; /* Célula vazia com altura fixa */
+}
+
+.solver-table .cell-capacity {
+  background-color: #d9ead3; /* Verde claro */
+  color: #333;
+  font-weight: bold;
+}
+
+/* Cantos vazios */
+.solver-table .empty-corner {
+  border: none;
+  background: none;
+}
+
+/* ... (todo o seu css existente) ... */
+
+/* ... (todo o seu css existente) ... */
+
+/* NOVA CLASSE para células de alocação */
+.solver-table .cell-allocation {
+  background-color: #e8f0fe; /* Azul muito claro */
+  color: #222;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.solver-table .cell-sum {
+  background-color: #e6e6e6 !important; /* Um cinzento claro */
+  color: #222 !important;
+  font-weight: bold;
+}
