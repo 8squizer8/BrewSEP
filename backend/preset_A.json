@@ -1,0 +1,185 @@
+{
+  "factories": [
+    {
+      "lat": 39.75668,
+      "lng": -8.880733,
+      "w": "120000",
+      "address": "Leiria",
+      "country": "Portugal"
+    },
+    {
+      "lat": 41.27861,
+      "lng": -8.378748,
+      "w": "50000",
+      "address": "Paços de Ferreira",
+      "country": "Portugal"
+    }
+  ],
+  "clients": [
+    {
+      "lat": 38.57143,
+      "lng": -7.90929,
+      "w": "3000",
+      "address": "Cliente 3 (Portugal)",
+      "country": "Portugal"
+    },
+    {
+      "lat": 37.02682,
+      "lng": -7.94912,
+      "w": "4000",
+      "address": "Cliente 4 (Portugal)",
+      "country": "Portugal"
+    },
+    {
+      "lat": 40.21118,
+      "lng": -8.4101,
+      "w": "5000",
+      "address": "Cliente 5 (Portugal)",
+      "country": "Portugal"
+    },
+    {
+      "lat": 40.92851,
+      "lng": -8.54845,
+      "w": "2000",
+      "address": "Cliente 6 (Portugal)",
+      "country": "Portugal"
+    },
+    {
+      "lat": 41.75464,
+      "lng": -7.47336,
+      "w": "3000",
+      "address": "Cliente 7 (Portugal)",
+      "country": "Portugal"
+    },
+    {
+      "lat": 41.80809,
+      "lng": -6.76759,
+      "w": "1000",
+      "address": "Cliente 8 (Portugal)",
+      "country": "Portugal"
+    },
+    {
+      "lat": 43.36661,
+      "lng": -5.8466,
+      "w": "2500",
+      "address": "Cliente 9 (Espanha)",
+      "country": "Espanha"
+    },
+    {
+      "lat": 39.86825,
+      "lng": -4.02655,
+      "w": "2500",
+      "address": "Cliente 10 (Espanha)",
+      "country": "Espanha"
+    },
+    {
+      "lat": 39.4767,
+      "lng": -0.37593,
+      "w": "7500",
+      "address": "Cliente 11 (Espanha)",
+      "country": "Espanha"
+    },
+    {
+      "lat": 41.65246,
+      "lng": -0.88897,
+      "w": "7500",
+      "address": "Cliente 12 (Espanha)",
+      "country": "Espanha"
+    },
+    {
+      "lat": 41.39065,
+      "lng": 2.172112,
+      "w": "10000",
+      "address": "Cliente 13 (França)",
+      "country": "França"
+    },
+    {
+      "lat": 43.60341,
+      "lng": 1.442452,
+      "w": "10000",
+      "address": "Cliente 14 (França)",
+      "country": "França"
+    },
+    {
+      "lat": 45.8391,
+      "lng": 1.256401,
+      "w": "10000",
+      "address": "Cliente 15 (França)",
+      "country": "França"
+    },
+    {
+      "lat": 45.73362,
+      "lng": 4.608594,
+      "w": "3000",
+      "address": "Cliente 16 (França)",
+      "country": "França"
+    },
+    {
+      "lat": 47.99779,
+      "lng": 0.21434,
+      "w": "4000",
+      "address": "Cliente 17 (França)",
+      "country": "França"
+    },
+    {
+      "lat": 45.46344,
+      "lng": 9.189403,
+      "w": "10000",
+      "address": "Cliente 18 (Itália)",
+      "country": "Itália"
+    },
+    {
+      "lat": 45.439,
+      "lng": 10.98807,
+      "w": "5000",
+      "address": "Cliente 19 (Itália)",
+      "country": "Itália"
+    },
+    {
+      "lat": 43.77275,
+      "lng": 11.25264,
+      "w": "5000",
+      "address": "Cliente 20 (Itália)",
+      "country": "Itália"
+    },
+    {
+      "lat": 48.13558,
+      "lng": 11.58097,
+      "w": "7500",
+      "address": "Cliente 21 (Alemanha)",
+      "country": "Alemanha"
+    },
+    {
+      "lat": 50.11276,
+      "lng": 8.66471,
+      "w": "5000",
+      "address": "Cliente 22 (Alemanha)",
+      "country": "Alemanha"
+    },
+    {
+      "lat": 52.51989,
+      "lng": 13.41372,
+      "w": "7500",
+      "address": "Cliente 23 (Alemanha)",
+      "country": "Alemanha"
+    }
+  ],
+  "distribution_centers": [
+    {
+      "lat": 48.91519,
+      "lng": 11.75649,
+      "w": "60000",
+      "custo_fixo": "2500000",
+      "address": "Munique XL",
+      "country": "Alemanha"
+    },
+    {
+      "lat": 41.23641,
+      "lng": -5.11851,
+      "w": "50000",
+      "custo_fixo": "2000000",
+      "address": "Avila XL",
+      "country": "Espanha"
+    }
+  ]
+}

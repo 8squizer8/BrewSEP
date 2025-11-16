@@ -1,0 +1,10 @@
+# Backend
+backend/.env
+backend/*.db
+backend/__pycache__/
+backend/.vscode/
+
+# Frontend
+frontend/node_modules
+frontend/dist
+frontend/.env.local
