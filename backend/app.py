@@ -604,6 +604,18 @@ def run_scenario():
         print(f"❌ Erro crítico na rota /run-scenario: {e}")
         return jsonify({'error': f'Erro no backend ao executar o solver: {e}'}), 500
 
+# --- 5. ROTA TEMPORÁRIA DE INICIALIZAÇÃO DA BD ---
+@app.route('/init-db-once')
+def init_db_route():
+    print("ℹ️ Rota /init-db-once foi chamada.")
+    try:
+        # Chama a sua função init_db() que já existe
+        init_db() 
+        return "✅ Base de dados inicializada com sucesso! As tabelas foram criadas."
+    except Exception as e:
+        print(f"❌ Erro ao inicializar a base de dados: {str(e)}")
+        return f"❌ Erro ao inicializar a base de dados: {str(e)}", 500
+
 
 if __name__ == '__main__':
     init_db() 
