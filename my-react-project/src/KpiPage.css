@@ -1,0 +1,78 @@
+/* Navegação Superior (Abas) */
+.kpi-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.kpi-nav button {
+  background-color: #1a1a2e;
+  border: 1px solid #5a5a7e;
+  border-bottom: none;
+  color: #aaa;
+  flex: 1;
+  padding: 15px 5px;
+  border-radius: 8px 8px 0 0;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin: 0;
+}
+
+.kpi-nav button:hover {
+  background-color: #2a2a4e;
+  color: white;
+}
+
+.kpi-nav button.active {
+  background-color: #3498db; /* Cor de destaque */
+  color: white;
+  border-color: #3498db;
+  font-weight: bold;
+  margin-bottom: -1px;
+  z-index: 2;
+  border-bottom: 1px solid #2a2a4e; /* Funde com o fundo do conteúdo */
+}
+
+/* Área de Conteúdo (Fundo) */
+.kpi-content-area {
+  background-color: #2a2a4e;
+  padding: 3rem;
+  border: 1px solid #3a3a5e;
+  border-top: 4px solid #3498db;
+  border-radius: 0 0 8px 8px;
+  min-height: 400px;
+  color: white;
+}
+
+/* Placeholder */
+.kpi-placeholder {
+  text-align: center;
+  padding: 2rem;
+  color: #eee;
+}
+
+.kpi-placeholder h3 {
+  margin-bottom: 1rem;
+  color: #3498db;
+}
+
+.construction-icon {
+  font-size: 5rem;
+  margin: 2rem 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .kpi-nav {
+    flex-direction: column;
+  }
+  .kpi-nav button {
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+}

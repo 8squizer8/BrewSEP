@@ -1,11 +1,11 @@
 // frontend/src/InstanciasPage.jsx
-// (Versão com atualização das colunas de capacidade/procura e URL de Produção)
+// (Versão completa com correção de erro JSON e validação de inputs)
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './DistancePage.css'; // Reutiliza CSS
 import './SolverPage.css';   // Reutiliza CSS
-import './Instancias.css'; // CSS novo para esta página
+import './Instancias.css';   // CSS novo para esta página
 
 // 1. Componente 'SolverTable' (Sem alteração)
 function SolverTable({ title, type, data, distanceData, allocationData }) {
@@ -79,7 +79,6 @@ function SolverTable({ title, type, data, distanceData, allocationData }) {
                 </td>
               )}
               <td className="cell-capacity">
-                {/* Aqui está a chave: 'row_capacities' vem da prop 'data' */}
                 {row_capacities && row_capacities[r_index]}
               </td>
             </tr>
@@ -163,7 +162,7 @@ function InstanciasPage() {
   const handleRunScenario = async () => {
     setScenarioLoading(true);
     setScenarioResult(null);
-    setScenarioInputs(null); // <-- Limpar inputs antigos
+    setScenarioInputs(null); 
     setError('');
 
     if (!baseCase) {
@@ -193,15 +192,15 @@ function InstanciasPage() {
     try {
       switch (selectedScenario) {
         case 'procura':
-          if (isNaN(perc)) throw new Error('Valor percentual inválido.');
+          if (isNaN(perc)) throw new Error('Valor percentual inválido. Insira um número (ex: 20).');
           final_demand_client = final_demand_client.map(d => d * (1 + perc / 100));
           break;
         case 'fabrica_cap':
-          if (isNaN(perc)) throw new Error('Valor percentual inválido.');
+          if (isNaN(perc)) throw new Error('Valor percentual inválido. Insira um número.');
           final_supply_factory = final_supply_factory.map(c => c * (1 + perc / 100));
           break;
         case 'cd_cap':
-          if (isNaN(perc)) throw new Error('Valor percentual inválido.');
+          if (isNaN(perc)) throw new Error('Valor percentual inválido. Insira um número.');
           final_capacity_dc = final_capacity_dc.map(c => c * (1 + perc / 100));
           break;
         case 'transporte':
@@ -252,16 +251,28 @@ function InstanciasPage() {
 
     // 6. Chamar a nova rota do backend
     try {
-      // --- CORREÇÃO DE URL ---
-      const response = await fetch("https://brewsep.onrender.com/run-scenario", {
+      // Seleção automática do URL: Local vs Render
+      const apiUrl = window.location.hostname === 'localhost' 
+        ? "http://localhost:5000/run-scenario" 
+        : "https://brewsep.onrender.com/run-scenario";
+
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = await response.json();
+      
+      // DEBUG: Tenta ler o texto primeiro para apanhar erros HTML/500
+      const responseText = await response.text();
+
       if (!response.ok) {
-        throw new Error(data.error || 'Erro ao executar o cenário');
+        // Se deu erro 500 ou similar, lança o erro com o texto
+        throw new Error(`Erro do Servidor (${response.status}): ${responseText}`);
       }
+
+      // Se OK, converte para JSON
+      const data = JSON.parse(responseText);
+      
       setScenarioResult(data); // Guardar os novos resultados
       
       // Guardar os INPUTS que foram usados para este cálculo
@@ -273,7 +284,8 @@ function InstanciasPage() {
       
     } catch (err) {
       console.error("Erro na API Fetch (Cenário):", err);
-      setError(err.message);
+      // Mostra uma mensagem mais amigável na UI
+      setError(`Falha ao executar cenário: ${err.message}`);
     } finally {
       setScenarioLoading(false);
     }
@@ -397,7 +409,6 @@ function InstanciasPage() {
       col_capacities: scenarioInputs.dc_capacities
     };
   }
-  // --- FIM DA ALTERAÇÃO ---
 
   return (
     <div className="distance-page"> 
@@ -433,7 +444,7 @@ function InstanciasPage() {
             >
               {scenarioLoading ? "A Calcular Cenário..." : "Executar Cenário"}
             </button>
-            {error && <p className="error-message" style={{fontSize: '1.1rem', marginTop: '1rem'}}>{error}</p>}
+            {error && <p className="error-message" style={{fontSize: '1.1rem', marginTop: '1rem', whiteSpace: 'pre-wrap'}}>{error}</p>}
           </div>
 
           {/* Coluna 2: Resultados */}
@@ -446,7 +457,7 @@ function InstanciasPage() {
             )}
             {scenarioLoading && <p style={{color: 'white', fontSize: '1.1rem'}}>A calcular a solução ótima para o cenário...</p>}
 
-            {/* ATUALIZADO: Verifica 'scenarioInputs' também */}
+            {/* Mostra resultados se existirem E inputs existirem */}
             {scenarioResult && scenarioInputs && (
               <>
                 <div className="result-card" style={{borderColor: '#3498db', backgroundColor: '#2a2a4e', padding: '1rem'}}>
@@ -484,7 +495,6 @@ function InstanciasPage() {
                   </div>
                 )}
                 
-                {/* ATUALIZADO: Passa os dados do cenário (com novas capacidades) */}
                 <SolverTable 
                   title="Tabela 3 (Cenário): Alocação - Fábricas para CDs"
                   type="allocation"
@@ -492,7 +502,6 @@ function InstanciasPage() {
                   allocationData={scenarioResult.factory_allocation.matrix}
                 />
                 
-                {/* ATUALIZADO: Passa os dados do cenário (com novas procuras) */}
                 <SolverTable 
                   title="Tabela 4 (Cenário): Alocação - Clientes para CDs"
                   type="allocation"
@@ -504,11 +513,20 @@ function InstanciasPage() {
           </div>
         </div>
         
-        <div className="button-group" style={{marginTop: 'auto', paddingTop: '2rem', flexDirection: 'row'}}>
+        {/* BOTÃO ATUALIZADO NO FUNDO */}
+        <div className="button-group" style={{marginTop: 'auto', paddingTop: '2rem', flexDirection: 'row', justifyContent: 'space-between'}}>
           <Link to="/solver">
             <button>Voltar ao Solver Principal</button>
           </Link>
+
+          {/* BOTÃO DE AVANÇO */}
+          <Link to="/pressupostos">
+            <button style={{backgroundColor: '#f39c12', borderColor: '#f39c12'}}>
+              Definir Pressupostos KPI ➔
+            </button>
+          </Link>
         </div>
+
       </div>
     </div>
   );
