@@ -1,19 +1,16 @@
 // frontend/src/DistancePage.jsx
-// (Versão com URLs de Produção do Render)
+// (Versão com Gravação de Dados para KPIs)
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Importar Link
+import { Link } from 'react-router-dom';
 import './DistancePage.css'; 
 
-// Componente Tabela (sem alteração)
 function DistanceTable({ title, data }) {
   if (!data || data.length <= 1) { 
     return (
       <div className="distance-table-container">
         <h3>{title}</h3>
-        <p style={{color: '#aaa', fontStyle: 'italic'}}>
-          Não há dados suficientes para esta tabela.
-        </p>
+        <p style={{color: '#aaa', fontStyle: 'italic'}}>Não há dados suficientes.</p>
       </div>
     );
   }
@@ -24,19 +21,11 @@ function DistanceTable({ title, data }) {
       <h3>{title}</h3>
       <table className="distance-table">
         <thead>
-          <tr>
-            {headers.map((header, index) => (
-              <th key={index}>{header}</th>
-            ))}
-          </tr>
+          <tr>{headers.map((header, index) => <th key={index}>{header}</th>)}</tr>
         </thead>
         <tbody>
           {rows.map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {row.map((cell, cellIndex) => (
-                <td key={cellIndex}>{cell}</td>
-              ))}
-            </tr>
+            <tr key={rowIndex}>{row.map((cell, cellIndex) => <td key={cellIndex}>{cell}</td>)}</tr>
           ))}
         </tbody>
       </table>
@@ -57,7 +46,6 @@ function DistancePage() {
       setError('');
       setDataSource('');
       try {
-        // --- CORREÇÃO DE URL ---
         const response = await fetch("https://brewsep.onrender.com/get-distance-matrix");
         const data = await response.json();
         if (!response.ok) {
@@ -66,6 +54,11 @@ function DistancePage() {
         setCdToFactories(data.cd_to_factories);
         setCdToClients(data.cd_to_clients);
         setDataSource(data.source); 
+        
+        // --- NOVO: Guardar dados "Ricos" (com texto de tempo) para a página de KPIs ---
+        sessionStorage.setItem('brewsepDistanceMatrix', JSON.stringify(data));
+        console.log("Dados de Distância/Tempo guardados no sessionStorage para uso nos KPIs.");
+
       } catch (err) {
         console.error("Erro na API Fetch:", err);
         setError(err.message);
@@ -80,48 +73,32 @@ function DistancePage() {
     <div className="distance-page">
       <div className="sidebar-panel">
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <h2>Matriz de Distâncias e Tempos (Rota de Condução)</h2>
+          <h2>Matriz de Distâncias e Tempos</h2>
           {dataSource && (
             <span style={{color: '#aaa', fontSize: '0.9rem', fontStyle: 'italic'}}>
-              Dados fornecidos por: {dataSource === 'api' ? 'Google API (Tempo Real)' : 'Cache Local (Guardado)'}
+              Fonte: {dataSource === 'api' ? 'Google API' : 'Cache'}
             </span>
           )}
         </div>
         
         {loading && (
           <div style={{textAlign: 'center', padding: '3rem'}}>
-            <p style={{color: 'white', fontSize: '1.2rem'}}>A calcular rotas...</p>
-            <p style={{color: '#aaa'}}>(Isto pode demorar vários segundos na primeira vez...)</p>
+            <p style={{color: 'white'}}>A calcular rotas...</p>
           </div>
         )}
-        {error && <p className="error-message" style={{fontSize: '1.1rem'}}>{error}</p>}
+        {error && <p className="error-message">{error}</p>}
         
         {!loading && !error && (
           <>
-            <DistanceTable 
-              title="Centros de Distribuição (Origem) ➔ Fábricas (Destino)" 
-              data={cdToFactories} 
-            />
-            <DistanceTable 
-              title="Centros de Distribuição (Origem) ➔ Clientes (Destino)" 
-              data={cdToClients} 
-            />
+            <DistanceTable title="CDs ➔ Fábricas" data={cdToFactories} />
+            <DistanceTable title="CDs ➔ Clientes" data={cdToClients} />
           </>
         )}
         
-        {/* --- BOTÕES ATUALIZADOS --- */}
         <div className="button-group" style={{marginTop: 'auto', paddingTop: '2rem', flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Link to="/">
-            <button>Voltar ao Mapa (Home)</button>
-          </Link>
-          
-          {/* --- NOVO BOTÃO --- */}
+          <Link to="/"><button>Voltar ao Mapa</button></Link>
           {!loading && !error && (
-            <Link to="/solver">
-              <button style={{backgroundColor: '#2ecc71', borderColor: '#2ecc71'}}>
-                Ir para o Solver
-              </button>
-            </Link>
+            <Link to="/solver"><button style={{backgroundColor: '#2ecc71', borderColor: '#2ecc71'}}>Ir para o Solver</button></Link>
           )}
         </div>
       </div>

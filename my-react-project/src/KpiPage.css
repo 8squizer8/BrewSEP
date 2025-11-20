@@ -133,3 +133,29 @@
 .kpi-table td:has(.high-utilization) {
     text-align: center;
 }
+
+/* Estilos para a Tabela de Pareto (ABC) */
+.pareto-green {
+    background-color: rgba(46, 204, 113, 0.2) !important;
+    border-left: 4px solid #2ecc71;
+}
+
+.pareto-yellow {
+    background-color: rgba(241, 196, 15, 0.2) !important;
+    border-left: 4px solid #f1c40f;
+}
+
+.pareto-red {
+    background-color: rgba(231, 76, 60, 0.2) !important;
+    border-left: 4px solid #e74c3c;
+}
+
+/* Botão da aba Mais Info */
+.kpi-nav button.info-tab {
+    border-bottom: 3px solid #95a5a6;
+}
+.kpi-nav button.info-tab.active {
+    border-bottom: 1px solid #2a2a4e;
+    background-color: #7f8c8d;
+    border-color: #7f8c8d;
+}
