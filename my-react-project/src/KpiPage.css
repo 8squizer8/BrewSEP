@@ -76,3 +76,60 @@
     margin-bottom: 5px;
   }
 }
+
+.kpi-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.kpi-table thead tr {
+    background-color: #2c3e50;
+    color: #f1c40f;
+    text-align: left;
+}
+
+.kpi-table th, .kpi-table td {
+    padding: 12px 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.kpi-table tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.kpi-table tbody tr:nth-of-type(even) {
+    background-color: rgba(44, 62, 80, 0.4); /* tom ligeiramente diferente */
+}
+
+.kpi-table tbody tr:hover {
+    background-color: rgba(44, 62, 80, 0.8);
+}
+
+.kpi-table td {
+    color: #ecf0f1;
+}
+
+.kpi-table td:last-child {
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Para destacar altas taxas de ocupação */
+.kpi-table .high-utilization {
+    color: #e74c3c; /* Vermelho/laranja */
+}
+
+/* Opcional: ajustar o padding das cards para tabelas */
+.kpi-card.table-card {
+    padding: 0; /* Remove o padding da card para que a tabela preencha tudo */
+    background-color: transparent; /* Torna o fundo transparente para a tabela ter seu próprio estilo */
+    border: none; /* Remove a borda da card */
+    box-shadow: none; /* Remove a sombra da card */
+}
+
+/* Ajustes para alinhar texto em células com valores percentuais */
+.kpi-table td:has(.high-utilization) {
+    text-align: center;
+}
