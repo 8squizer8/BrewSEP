@@ -53,14 +53,18 @@ function KpiPage() {
       const inputs = solverData.inputs || {};
       const results = solverData.results || {};
 
-      // --- A. CUSTOS ---
+      // --- A. CUSTOS & FINANÇAS ---
       const totalCases = assumptions.totalDemandCases || 0; 
       const productionCostPerCase = assumptions.productionCost || 0;
       const costToMake = totalCases * productionCostPerCase;
-      const costToDeliver = results.totalCost || 0;
+      const costToDeliver = results.totalCost || 0; 
       const totalSupplyChainCost = costToMake + costToDeliver;
       const totalRevenue = totalCases * (assumptions.sellingPrice || 0);
       const grossProfit = totalRevenue - totalSupplyChainCost;
+
+      // Unitários
+      const unitScmCost = totalCases > 0 ? totalSupplyChainCost / totalCases : 0;
+      const unitProfit = totalCases > 0 ? grossProfit / totalCases : 0;
 
       // --- B. AGILIDADE ---
       const factoryUtilizations = results.factoryUtilizations || [];
@@ -163,7 +167,7 @@ function KpiPage() {
       });
 
       setMetrics({
-        cost: { totalScmCost: totalSupplyChainCost, costToMake, costToDeliver, revenue: totalRevenue, grossProfit, cases: totalCases },
+        cost: { totalScmCost: totalSupplyChainCost, costToMake, costToDeliver, revenue: totalRevenue, grossProfit, cases: totalCases, unitScmCost, unitProfit },
         agility: { upside: upsideAdaptability, make: makeAdaptability, deliver: deliverAdaptability, factoryUtilizations, dcUtilizations, factoryCap: a_totalFactoryCap, factoryLoad: b_totalFactoryLoad, dcCap: c_totalOpenDcCap, dcLoad: d_totalDcLoad },
         reliability: { perfectOrder: perfectOrderFulfillment, complete: pctComplete, damageFree: pctDamageFree, onTime: pctOnTime },
         assets: { cashToCash: cashToCashCycle, daysInventory, daysReceivables, daysPayables },
@@ -192,20 +196,54 @@ function KpiPage() {
       case 'custos':
         return (
           <div className="kpi-grid">
+            {/* Level 1: Total */}
             <div className="kpi-card main-card">
               <h3>Total Supply Chain Management Cost</h3>
               <div className="big-number danger">{fmtEuro(metrics.cost.totalScmCost)}</div>
               <p className="unit">Soma dos Custos de Produção e Entrega</p>
             </div>
+
+            {/* Level 2: Componentes (Lado a Lado) */}
             <div className="kpi-subgrid">
-              <div className="kpi-card"><h3>Cost to Make (Produção)</h3><div className="medium-number warning">{fmtEuro(metrics.cost.costToMake)}</div><div className="sub-detail"><span>Vol: {fmtNum(metrics.cost.cases)} cx</span></div></div>
-              <div className="kpi-card"><h3>Cost to Deliver (Logística)</h3><div className="medium-number warning">{fmtEuro(metrics.cost.costToDeliver)}</div><div className="sub-detail"><span>Transporte + Armazenagem</span></div></div>
+              <div className="kpi-card">
+                <h3>Cost to Make (Produção)</h3>
+                <div className="medium-number warning">{fmtEuro(metrics.cost.costToMake)}</div>
+                <div className="sub-detail"><span>Vol: {fmtNum(metrics.cost.cases)} cx</span></div>
+              </div>
+              <div className="kpi-card">
+                <h3>Cost to Deliver (Logística)</h3>
+                <div className="medium-number warning">{fmtEuro(metrics.cost.costToDeliver)}</div>
+                <div className="sub-detail"><span>Transporte + Armazenagem</span></div>
+              </div>
             </div>
+
+            {/* Distribuição (Barra) */}
             <div className="kpi-card full-width">
               <h3>Distribuição de Custos da Cadeia</h3>
               <div className="progress-bar-container">
-                <div className="progress-segment" style={{width: `${(metrics.cost.costToMake / metrics.cost.totalScmCost) * 100}%`, backgroundColor: '#f1c40f'}}>Make ({fmtDec((metrics.cost.costToMake / metrics.cost.totalScmCost) * 100)}%)</div>
-                <div className="progress-segment" style={{width: `${(metrics.cost.costToDeliver / metrics.cost.totalScmCost) * 100}%`, backgroundColor: '#e74c3c'}}>Deliver ({fmtDec((metrics.cost.costToDeliver / metrics.cost.totalScmCost) * 100)}%)</div>
+                <div className="progress-segment" style={{width: `${(metrics.cost.costToMake / metrics.cost.totalScmCost) * 100}%`, backgroundColor: '#f1c40f'}}>
+                  Make ({fmtDec((metrics.cost.costToMake / metrics.cost.totalScmCost) * 100)}%)
+                </div>
+                <div className="progress-segment" style={{width: `${(metrics.cost.costToDeliver / metrics.cost.totalScmCost) * 100}%`, backgroundColor: '#e74c3c'}}>
+                  Deliver ({fmtDec((metrics.cost.costToDeliver / metrics.cost.totalScmCost) * 100)}%)
+                </div>
+              </div>
+            </div>
+
+            {/* Level 3: Unitários (AGORA EM BAIXO E LADO A LADO) */}
+            <div className="kpi-subgrid">
+              <div className="kpi-card unit-card-cost">
+                <h3>Custo por Caixa</h3>
+                <div className="medium-number warning">{fmtEuro(metrics.cost.unitScmCost)}</div>
+                <div className="sub-detail">Custo Unitário da Cadeia</div>
+              </div>
+              <div className="kpi-card unit-card-profit">
+                <h3>Lucro por Caixa</h3>
+                {/* Cor Verde se > 0, Vermelho se <= 0 */}
+                <div className={`medium-number ${metrics.cost.unitProfit > 0 ? 'success' : 'danger'}`}>
+                    {fmtEuro(metrics.cost.unitProfit)}
+                </div>
+                <div className="sub-detail">Margem Líquida Unitária</div>
               </div>
             </div>
           </div>
@@ -223,54 +261,38 @@ function KpiPage() {
               <div className="kpi-card"><h3>Make Adaptability</h3><div className="medium-number">{fmtPct(metrics.agility.make)}</div><div className="sub-detail"><span>Folga Fábricas</span></div></div>
               <div className="kpi-card"><h3>Deliver Adaptability</h3><div className="medium-number">{fmtPct(metrics.agility.deliver)}</div><div className="sub-detail"><span>Folga CDs</span></div></div>
             </div>
-
-            {/* TABELA DE FÁBRICAS COM BADGES DE OCUPAÇÃO */}
             <div className="kpi-card full-width table-card">
               <h3>Utilização de Fábricas</h3>
               <table className="kpi-table">
                 <thead><tr><th>Fábrica</th><th>Utilizado</th><th>Capacidade</th><th style={{textAlign: 'center'}}>Taxa de Ocupação</th></tr></thead>
                 <tbody>
                   {metrics.agility.factoryUtilizations.map((f, i) => {
-                    // Lógica de cores
-                    let badgeClass = 'badge-green'; // < 70%
-                    if (f.utilizationRate >= 0.9) badgeClass = 'badge-red'; // > 90%
-                    else if (f.utilizationRate >= 0.7) badgeClass = 'badge-yellow'; // 70-90%
-
+                    let badgeClass = 'badge-green'; 
+                    if (f.utilizationRate >= 0.9) badgeClass = 'badge-red'; 
+                    else if (f.utilizationRate >= 0.7) badgeClass = 'badge-yellow'; 
                     return (
                       <tr key={i}>
-                        <td>{f.name}</td>
-                        <td>{fmtNum(f.utilized)} cx</td>
-                        <td>{fmtNum(f.capacity)} cx</td>
-                        <td style={{textAlign: 'center'}}>
-                          <span className={`status-badge ${badgeClass}`}>{fmtPct(f.utilizationRate)}</span>
-                        </td>
+                        <td>{f.name}</td><td>{fmtNum(f.utilized)} cx</td><td>{fmtNum(f.capacity)} cx</td>
+                        <td style={{textAlign: 'center'}}><span className={`status-badge ${badgeClass}`}>{fmtPct(f.utilizationRate)}</span></td>
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
             </div>
-
-            {/* TABELA DE CDS COM BADGES DE OCUPAÇÃO */}
             <div className="kpi-card full-width table-card">
               <h3>Utilização de CDs (Abertos)</h3>
               <table className="kpi-table">
                 <thead><tr><th>CD</th><th>Utilizado</th><th>Capacidade</th><th style={{textAlign: 'center'}}>Taxa de Ocupação</th></tr></thead>
                 <tbody>
                   {metrics.agility.dcUtilizations.map((dc, i) => {
-                    // Lógica de cores
                     let badgeClass = 'badge-green';
                     if (dc.utilizationRate >= 0.9) badgeClass = 'badge-red';
                     else if (dc.utilizationRate >= 0.7) badgeClass = 'badge-yellow';
-
                     return (
                       <tr key={i}>
-                        <td>{dc.name}</td>
-                        <td>{fmtNum(dc.utilized)} cx</td>
-                        <td>{fmtNum(dc.capacity)} cx</td>
-                        <td style={{textAlign: 'center'}}>
-                          <span className={`status-badge ${badgeClass}`}>{fmtPct(dc.utilizationRate)}</span>
-                        </td>
+                        <td>{dc.name}</td><td>{fmtNum(dc.utilized)} cx</td><td>{fmtNum(dc.capacity)} cx</td>
+                        <td style={{textAlign: 'center'}}><span className={`status-badge ${badgeClass}`}>{fmtPct(dc.utilizationRate)}</span></td>
                       </tr>
                     );
                   })}
@@ -366,14 +388,8 @@ function KpiPage() {
                 <thead><tr><th>Cliente</th><th>Procura Anual (cx)</th><th>% Acumulada</th><th style={{textAlign:'center'}}>Categoria</th></tr></thead>
                 <tbody>{metrics.moreInfo.paretoClients.map((c, i) => (
                   <tr key={i}>
-                    <td>{c.name}</td>
-                    <td>{fmtNum(c.demand)}</td>
-                    <td>{fmtDec(c.pctAccumulated)}%</td>
-                    <td style={{textAlign:'center'}}>
-                      <span className={`status-badge ${c.colorClass}`}>
-                        {c.colorClass.includes('green') ? 'A' : c.colorClass.includes('yellow') ? 'B' : 'C'}
-                      </span>
-                    </td>
+                    <td>{c.name}</td><td>{fmtNum(c.demand)}</td><td>{fmtDec(c.pctAccumulated)}%</td>
+                    <td style={{textAlign:'center'}}><span className={`status-badge ${c.colorClass}`}>{c.colorClass.includes('green') ? 'A' : c.colorClass.includes('yellow') ? 'B' : 'C'}</span></td>
                   </tr>
                 ))}</tbody>
               </table>

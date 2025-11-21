@@ -65,11 +65,10 @@
     animation: fadeUp 0.6s ease-out;
 }
 
-/* Subgrid para alinhar itens lado a lado (Level 2) */
 .kpi-subgrid {
-    grid-column: 1 / -1; /* Ocupa toda a largura */
+    grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Colunas flexíveis */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
 }
 
@@ -84,18 +83,26 @@
 }
 .kpi-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: rgba(255, 255, 255, 0.1); }
 
-/* MAIN CARD (LEVEL 1 - REFACTORED) */
+/* ESTILOS PARA CARTÕES UNITÁRIOS (DISTINTOS) */
+.unit-card-cost {
+    background: linear-gradient(145deg, #2a2a40, #202030); /* Tom ligeiramente diferente */
+    border-top: 3px solid var(--accent-warning);
+}
+.unit-card-profit {
+    background: linear-gradient(145deg, #2a2a40, #202030);
+    border-top: 3px solid var(--accent-success);
+}
+
 .main-card {
-    grid-column: 1 / -1; /* Força largura total */
+    grid-column: 1 / -1;
     background: linear-gradient(145deg, #2a2a4e, #1f1f35);
-    text-align: center; /* Centra tudo */
-    align-items: center; /* Centra flex items */
+    text-align: center; align-items: center;
     padding: 3rem 2rem;
     border: 1px solid rgba(255,255,255,0.1);
 }
 
-.main-card h3 { font-size: 1rem; letter-spacing: 2px; opacity: 0.8; margin-bottom: 1.5rem; }
-.main-card .big-number { font-size: 4rem; margin-bottom: 0.5rem; } /* Maior destaque */
+.main-card:has(h3:contains("Cost"))::after, .main-card:has(.danger)::after { background: var(--accent-danger); }
+.main-card:has(.success)::after { background: var(--accent-success); }
 
 .full-width { grid-column: 1 / -1; }
 
@@ -113,14 +120,14 @@
 
 /* --- PROGRESS BAR --- */
 .progress-bar-container {
-    background-color: rgba(255,255,255,0.1); /* Fundo visível */
-    border-radius: 50px; height: 24px !important; /* Mais alta */
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 50px; height: 24px !important;
     overflow: hidden; margin-top: 15px; display: flex;
     border: 1px solid rgba(255,255,255,0.1);
 }
 .progress-segment {
     height: 100%; display: flex; align-items: center; justify-content: center;
-    font-size: 0.8rem; font-weight: bold; color: #1a1a2e; /* Texto escuro para contraste */
+    font-size: 0.8rem; font-weight: bold; color: #1a1a2e;
     transition: width 1s ease-in-out; white-space: nowrap; overflow: hidden;
 }
 
@@ -134,20 +141,14 @@
 .kpi-table td:first-child { border-radius: 10px 0 0 10px; }
 .kpi-table td:last-child { border-radius: 0 10px 10px 0; font-weight: bold; }
 
-/* BADGES PARETO (NOVO) */
+/* BADGES */
 .status-badge {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #1a1a2e; /* Texto escuro */
-    display: inline-block;
-    min-width: 40px;
-    text-align: center;
+    padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; color: #1a1a2e;
+    display: inline-block; min-width: 60px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
-.badge-green { background-color: var(--accent-success); box-shadow: 0 0 10px rgba(46, 204, 113, 0.4); }
-.badge-yellow { background-color: var(--accent-warning); box-shadow: 0 0 10px rgba(241, 196, 15, 0.4); }
-.badge-red { background-color: var(--accent-danger); box-shadow: 0 0 10px rgba(231, 76, 60, 0.4); }
+.badge-green { background-color: var(--accent-success); }
+.badge-yellow { background-color: var(--accent-warning); }
+.badge-red { background-color: var(--accent-danger); }
 
 /* Botões */
 .button-group button { border-radius: 8px; padding: 12px 24px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.2s; }
@@ -157,19 +158,3 @@
     .kpi-subgrid { grid-template-columns: 1fr; }
     .kpi-nav { width: 100%; overflow-x: auto; }
 }
-
-.status-badge {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #1a1a2e; /* Texto escuro para contraste */
-    display: inline-block;
-    min-width: 60px; /* Ligeiro ajuste para caber percentagens */
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.badge-green { background-color: var(--accent-success); }
-.badge-yellow { background-color: var(--accent-warning); }
-.badge-red { background-color: var(--accent-danger); }

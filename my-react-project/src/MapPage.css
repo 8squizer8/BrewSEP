@@ -3,19 +3,33 @@
 .map-page-container {
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh; /* Garante altura total */
   color: white;
   background-color: #0c0c1e;
+  overflow: hidden;
+  
+  /* ALTERAÇÃO: Adiciona espaço à volta e entre os painéis */
+  padding: 1.5rem;
+  gap: 2rem; 
+  box-sizing: border-box;
 }
 
 .map-panel {
-  flex: 1.5;
+  /* ALTERAÇÃO: Reduzido para ocupar menos espaço (proporção 1) */
+  flex: 1; 
   height: 100%;
   position: relative;
+  
+  /* Estética: Cantos arredondados e sombra para parecer um "painel" */
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
 .sidebar-panel {
-  flex: 1;
+  /* ALTERAÇÃO: Aumentado para ter mais espaço que o mapa (proporção 1.1) */
+  flex: 1.1; 
   height: 100%;
   background-color: #1a1a2e;
   padding: 2rem;
@@ -23,8 +37,15 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  
+  /* Estética da Sidebar */
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.05);
+  min-width: 400px; /* Garante largura mínima confortável */
 }
 
+/* Estilos Internos da Sidebar (Mantidos) */
 .sidebar-panel h2 {
   margin-top: 0;
   color: #e0e0e0;
@@ -91,41 +112,34 @@
   gap: 0.75rem;
 }
 
-/* --- MUDANÇAS DE CSS AQUI --- */
-
 .marker-editor .numeric-inputs {
   display: flex;
   gap: 0.75rem;
   justify-content: space-between;
-  flex-wrap: wrap; /* Permite que os itens quebrem a linha */
+  flex-wrap: wrap;
 }
 
 .marker-editor .input-wrapper {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  /* Lat e Lng ocupam 50% cada */
   flex-basis: calc(50% - 0.5rem); 
-  min-width: 120px; /* Largura mínima */
+  min-width: 120px;
 }
 
 .marker-editor .input-wrapper label {
   font-size: 0.75rem;
   color: #ccc;
   margin-bottom: 4px;
-  white-space: normal; /* Permite que o texto da etiqueta quebre a linha */
+  white-space: normal;
 }
 
 .marker-editor .weight-wrapper {
   flex-grow: 1;
-  /* O novo campo ocupa 100% da largura */
   flex-basis: 100%; 
   min-width: 100%;
-  margin-top: 0.5rem; /* Adiciona um espaço em cima */
+  margin-top: 0.5rem;
 }
-
-/* --- FIM DAS MUDANÇAS DE CSS --- */
-
 
 .marker-editor input {
   width: 100%;
@@ -146,7 +160,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-top: auto; /* Empurra os botões para o fundo */
+    margin-top: auto;
 }
 
 .button-group button {
