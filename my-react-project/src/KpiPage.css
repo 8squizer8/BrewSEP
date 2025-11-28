@@ -85,7 +85,7 @@
 
 /* ESTILOS PARA CARTÕES UNITÁRIOS (DISTINTOS) */
 .unit-card-cost {
-    background: linear-gradient(145deg, #2a2a40, #202030); /* Tom ligeiramente diferente */
+    background: linear-gradient(145deg, #2a2a40, #202030); 
     border-top: 3px solid var(--accent-warning);
 }
 .unit-card-profit {
@@ -153,6 +153,31 @@
 /* Botões */
 .button-group button { border-radius: 8px; padding: 12px 24px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.2s; }
 .button-group button:hover { transform: translateY(-2px); }
+
+/* --- NOVO: BARRA DE CONTEXTO ESTÉTICA --- */
+.context-info-bar {
+    grid-column: 1 / -1;
+    background: linear-gradient(90deg, rgba(52, 152, 219, 0.1) 0%, rgba(52, 152, 219, 0.02) 100%);
+    border-left: 4px solid var(--accent-primary);
+    border-radius: 8px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.context-info-bar .icon {
+    font-size: 1.2rem;
+}
+
+.context-info-bar strong {
+    color: white;
+    font-weight: 600;
+}
 
 @media (max-width: 768px) {
     .kpi-subgrid { grid-template-columns: 1fr; }
